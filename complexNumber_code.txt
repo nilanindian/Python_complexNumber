@@ -1,0 +1,92 @@
+# now i going to create a class  for complex number 
+
+class ComplexNumber():
+    def __init__(self,real,imaginary):
+        if isinstance(real,(int,float)) and isinstance(imaginary,(int,float)):
+            self._real=real
+            self._imaginary=imaginary
+        else:
+            raise TypeError("must be real number, not str")
+            
+     # for print like a complex number   
+    def __str__(self):
+        return f'({self._real},{self._imaginary}i)'
+        pass
+     
+    def __repr__(self):
+        return f'({self._real},{self._imaginary}i)'
+            
+    # add property decoretor for set real part
+    @property        
+    def real(self):
+            return self._real
+     
+    @real.setter
+    def real(self,value):
+        if isinstance(value,(int,float)):
+            self._real=value
+        else:
+            raise TypeError("must be real number, not str")
+            
+    # add property decoretor for set imaginary part
+    @property        
+    def imaginary(self):
+            return self._imaginary
+     
+    @imaginary.setter
+    def imaginary(self,value):
+        if isinstance(value,(int,float)):
+            self._imaginary=value 
+        else:
+            raise TypeError("must be real number, not str")
+            
+    def __bool__(self):
+        return not(self._real==0 and self._imaginary==0)
+            
+    def __add__(self,other):
+        if isinstance(other,(int,float)):
+            return ComplexNumber(self._real+other,self._imaginary)
+        elif isinstance(other,ComplexNumber):
+            return ComplexNumber(self._real+other._real,self._imaginary+other._imaginary)
+        else:
+            raise TypeError("must be real number, not str")
+        
+    
+    def __sub__(self,other):
+        if isinstance(other,(int,float)):
+            return ComplexNumber(self._real-other,self._imaginary)
+        elif isinstance(other,ComplexNumber):
+            return ComplexNumber(self._real-other._real,self._imaginary-other._imaginary)
+        else:
+            raise TypeError("must be real number, not str")
+     
+    def __mul__(self,other):
+        if isinstance(other,(int,float)):
+            return ComplexNumber(self._real*other,self._imaginary*other)
+        elif isinstance(other,ComplexNumber):
+            return ComplexNumber(self._real*other._real-self._imaginary*other._imaginary,self._real*other._imaginary+self._imaginary*other._real)
+        else:
+            raise TypeError("must be real number, not str")
+    
+    
+    def conjugate(self):
+        return ComplexNumber(self.real,- self.imaginary)
+    
+    
+    def __truediv__(self,other):
+        if isinstance(other,(int,float)):
+            return ComplexNumber(self._real/other,self._imaginary/other)
+        elif isinstance(other,ComplexNumber):
+            divident=self*other.conjugate()
+            divisor=other._real**2+other._imaginary**2
+            return ComplexNumber(divident._real/divisor,divident._imaginary/divisor)
+        else:
+            raise TypeError("must be real number, not str")
+     
+    
+    def __eq__(self,other):
+        return self._real==other._real and self._imaginary==other._imaginary
+     
+        
+    def __abs__(self):
+        return(self._real**2+self._imaginary**2)**(1/2)
